@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:padding="10dp">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<Switch
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="5dp"
+			android:id="@+id/mainSwitch1"
+			android:text="@string/enable_service"/>
+		
+		<RadioGroup
+			android:id="@+id/radioGroup"
+			android:layout_marginBottom="5dp"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<RadioButton
+				android:id="@+id/radioDialog"
+				android:text="@string/dialog"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_weight="1" />
+
+			<RadioButton
+				android:id="@+id/radioToast"
+				android:text="@string/toast"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_weight="1" />
+			
+		</RadioGroup>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/text"/>
+
+		<EditText
+			android:layout_width="match_parent"
+			android:inputType="textMultiLine"
+			android:layout_height="wrap_content"
+			android:ems="10"
+			android:lines="5"
+			android:maxLines="5"
+			android:gravity="top"
+			android:singleLine="false"
+			android:hint="@string/text"
+			android:layout_marginBottom="5dp"
+			android:id="@+id/mainEditText1"/>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/interval_label"/>
+
+		<Spinner
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="10dp"
+			android:id="@+id/mainSpinner1"/>
+
+		<Button
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/save_and_exit"
+			android:id="@+id/mainButton1"
+			android:layout_marginBottom="10dp"/>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="© Maximoff, 2026"
+			android:id="@+id/mainTextView1"
+			android:gravity="center"/>
+
+	</LinearLayout>
+
+</ScrollView>
+

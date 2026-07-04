@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Напоминалка</string>
+	<string name="enable_service">Включить сервис</string>
+	<string name="text">Текст</string>
+	<string name="interval_label">Напоминать не чаще, чем раз в</string>
+	<string name="error">Ошибка!</string>
+	<string name="save_and_exit">Сохранить и закрыть</string>
+	<string name="ok">Ок</string>
+	<string name="channel_name">Фоновый сервис</string>
+	<string name="notification_title">Сервис работает</string>
+	<string name="notification_text">Отслеживание разблокировки экрана</string>
+	<string name="toast">Тост</string>
+	<string name="dialog">Диалог</string>
+	<string name="settings">Настройки</string>
+	<string name="permission_need">Необходимо разрешить отображение поверх других приложений!</string>
+	<string name="cancel">Отмена</string>
+</resources>
