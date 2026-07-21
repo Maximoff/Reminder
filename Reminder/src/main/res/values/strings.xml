@@ -19,4 +19,5 @@
 	<string name="bg_color">Цвет фона</string>
 	<string name="bold">Жирный</string>
 	<string name="cursive">Курсив</string>
+	<string name="font_size">Размер текста</string>
 </resources>

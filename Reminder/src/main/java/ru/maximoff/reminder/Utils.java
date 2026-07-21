@@ -52,11 +52,12 @@ public class Utils {
 				context.startActivity(intent);
 			} catch (Exception e) {
 				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+				int fontSize = preferences.getInt("font_size", 1);
 				int fontColor = preferences.getInt("font_color", Utils.getColor(context, R.color.text_dark));
 				int bgColor = preferences.getInt("bg_color", Utils.getColor(context, R.color.bg_dark));
 				boolean bold = preferences.getBoolean("font_bold", false);
 				boolean cursive = preferences.getBoolean("font_cursive", false);
-				Utils.st(context, R.string.error, fontColor, bgColor, bold, cursive);
+				Utils.st(context, R.string.error, fontColor, bgColor, bold, cursive, fontSize);
 			}
 		}
 	}
@@ -68,7 +69,7 @@ public class Utils {
 		return ctx.getResources().getColor(color);
 	}
 
-	public static void st(Context ctx, String text, int duration, int fontColor, int bgColor, boolean bold, boolean cursive) {
+	public static void st(Context ctx, String text, int duration, int fontColor, int bgColor, boolean bold, boolean cursive, int fontSize) {
 		try {
 			final LayerDrawable bgDrawable = (LayerDrawable) ctx.getResources().getDrawable(R.drawable.dark_background).mutate();
 			GradientDrawable bg = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.content);
@@ -76,8 +77,6 @@ public class Utils {
 			final View layout = LayoutInflater.from(ctx).inflate(R.layout.toast, null);
 			layout.setBackground(bgDrawable);
 			TextView toastMessage = layout.findViewById(R.id.toastTextView1);
-			toastMessage.setTextColor(fontColor);
-			toastMessage.setText(text);
 			int style;
 			if (bold) {
 				style = cursive ? Typeface.BOLD_ITALIC : Typeface.BOLD;
@@ -85,6 +84,24 @@ public class Utils {
 				style = cursive ? Typeface.ITALIC : Typeface.NORMAL;
 			}
 			toastMessage.setTypeface(null, style);
+			int appearance;
+			switch (fontSize) {
+				case 0:
+					appearance = android.R.style.TextAppearance_Small;
+					break;
+					
+				case 1:
+				default:
+					appearance = android.R.style.TextAppearance_Medium;
+					break;
+					
+				case 2:
+					appearance = android.R.style.TextAppearance_Large;
+					break;
+			}
+			setTextAppearance(ctx, toastMessage, appearance);
+			toastMessage.setTextColor(fontColor);
+			toastMessage.setText(text);
 			Toast toast = new Toast(ctx);
 			toast.setDuration(duration);
 			toast.setView(layout);
@@ -94,17 +111,17 @@ public class Utils {
 		}
 	}
 
-	public static void st(Context ctx, String text, int fontColor, int bgColor, boolean bold, boolean cursive) {
+	public static void st(Context ctx, String text, int fontColor, int bgColor, boolean bold, boolean cursive, int fontSize) {
 		try {
-			Utils.st(ctx, text, Toast.LENGTH_LONG, fontColor, bgColor, bold, cursive);
+			Utils.st(ctx, text, Toast.LENGTH_LONG, fontColor, bgColor, bold, cursive, fontSize);
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}
 	}
 
-	public static void st(Context ctx, int res, int fontColor, int bgColor, boolean bold, boolean cursive) {
+	public static void st(Context ctx, int res, int fontColor, int bgColor, boolean bold, boolean cursive, int fontSize) {
 		try {
-			Utils.st(ctx, ctx.getString(res), Toast.LENGTH_LONG, fontColor, bgColor, bold, cursive);
+			Utils.st(ctx, ctx.getString(res), Toast.LENGTH_LONG, fontColor, bgColor, bold, cursive, fontSize);
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}
@@ -134,5 +151,13 @@ public class Utils {
 			drawable.setStroke(dp(context, 1), Color.argb(70, 0, 0, 0));
 		}
 		return drawable;
+	}
+	
+	public static void setTextAppearance(Context context, TextView view, int resId) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+			view.setTextAppearance(context, resId);
+		} else {
+			view.setTextAppearance(resId);
+		}
 	}
 }

@@ -45,18 +45,19 @@ public class UnlockService extends Service {
 				final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ctx);
                 if (Intent.ACTION_USER_PRESENT.equals(intent.getAction()) && canLaunch(preferences)) {
 					String text = preferences.getString("remind_text", "");
+					int fontSize = preferences.getInt("font_size", 1);
 					int fontColor = preferences.getInt("font_color", Utils.getColor(ctx, R.color.text_dark));
 					int bgColor = preferences.getInt("bg_color", Utils.getColor(ctx, R.color.bg_dark));
 					boolean bold = preferences.getBoolean("font_bold", false);
 					boolean cursive = preferences.getBoolean("font_cursive", false);
 					if (preferences.getBoolean("dialog_remind", true)) {
 						if (Utils.canDrawOverlay(ctx)) {
-							floatingWindow(text, fontColor, bgColor, bold, cursive);
+							floatingWindow(text, fontColor, bgColor, bold, cursive, fontSize);
 						} else {
-							Utils.st(ctx, R.string.permission_need, fontColor, bgColor, bold, cursive);
+							Utils.st(ctx, R.string.permission_need, fontColor, bgColor, bold, cursive, fontSize);
 						}
 					} else {
-						Utils.st(ctx, text, fontColor, bgColor, bold, cursive);
+						Utils.st(ctx, text, fontColor, bgColor, bold, cursive, fontSize);
 					}
 					preferences.edit().putLong("remind_time", System.currentTimeMillis()).commit();
                 }
@@ -84,7 +85,7 @@ public class UnlockService extends Service {
         return null;
     }
 
-	private void floatingWindow(String text, int fontColor, int bgColor, boolean bold, boolean cursive) {
+	private void floatingWindow(String text, int fontColor, int bgColor, boolean bold, boolean cursive, int fontSize) {
 		final WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 		final ContextThemeWrapper ctx = new ContextThemeWrapper(this, R.style.OverlayDialogTheme);
 		final View view = LayoutInflater.from(ctx).inflate(R.layout.dialog, null);
@@ -93,8 +94,6 @@ public class UnlockService extends Service {
 		bg.setColor(bgColor);
 		view.setBackground(bgDrawable);
 		TextView textView = view.findViewById(R.id.dialogTextView1);
-		textView.setText(text);
-		textView.setTextColor(fontColor);
 		int style;
 		if (bold) {
 			style = cursive ? Typeface.BOLD_ITALIC : Typeface.BOLD;
@@ -102,6 +101,24 @@ public class UnlockService extends Service {
 			style = cursive ? Typeface.ITALIC : Typeface.NORMAL;
 		}
 		textView.setTypeface(null, style);
+		int appearance;
+		switch (fontSize) {
+			case 0:
+				appearance = android.R.style.TextAppearance_Small;
+				break;
+
+			case 1:
+			default:
+				appearance = android.R.style.TextAppearance_Medium;
+				break;
+
+			case 2:
+				appearance = android.R.style.TextAppearance_Large;
+				break;
+		}
+		Utils.setTextAppearance(ctx, textView, appearance);
+		textView.setTextColor(fontColor);
+		textView.setText(text);
 		Button settings = view.findViewById(R.id.dialogButton1);
 		settings.setOnClickListener(new View.OnClickListener() {
 				@Override

@@ -44,6 +44,7 @@ public class MainActivity extends Activity {
 		final RadioButton radioToast = findViewById(R.id.radioToast);
 		final EditText editText = findViewById(R.id.mainEditText1);
 		final Spinner hoursSpinner = findViewById(R.id.mainSpinner1);
+		final Spinner sizesSpinner = findViewById(R.id.mainSpinner2);
 		final Button saveButton = findViewById(R.id.mainButton1);
 		final ImageView fontColorView = findViewById(R.id.colorPreview1);
 		final ImageView bgColorView = findViewById(R.id.colorPreview2);
@@ -161,6 +162,9 @@ public class MainActivity extends Activity {
 		ArrayAdapter<String> hoursAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, hoursArray);
 		hoursSpinner.setAdapter(hoursAdapter);
 		hoursSpinner.setSelection(preferences.getInt("hours_limit", 0));
+		ArrayAdapter<String> sizesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.font_sizes));
+		sizesSpinner.setAdapter(sizesAdapter);
+		sizesSpinner.setSelection(preferences.getInt("font_size", 1));
 		saveButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View p1) {
@@ -174,6 +178,7 @@ public class MainActivity extends Activity {
 						.putInt("font_color", fontColor[0])
 						.putInt("bg_color", bgColor[0])
 						.putInt("hours_limit", hoursSpinner.getSelectedItemPosition())
+						.putInt("font_size", sizesSpinner.getSelectedItemPosition())
 						.commit();
 					if (enable) {
 						startService();
