@@ -5,5 +5,10 @@
     <color name="bg_dark">#ff222222</color>
     <color name="shadow_dark1">#0fffffff</color>
     <color name="shadow_dark2">#1fffffff</color>
+    
+    <color name="maximoff_picker_red">#FFFF0000</color>
+	<color name="maximoff_picker_green">#FF00FF00</color>
+	<color name="maximoff_picker_blue">#FF0000FF</color>
+	<color name="maximoff_picker_grey">#FF757575</color>
 </resources>
 

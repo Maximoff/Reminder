@@ -1,44 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:orientation="vertical"
-	android:padding="10dp"
-	android:background="@drawable/dark_background">
-
-	<TextView
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/dialogTextView1"
-		android:layout_marginBottom="5dp"
-		android:textAppearance="?android:attr/textAppearanceMedium"/>
-
-	<LinearLayout
-		android:orientation="horizontal"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-
-		<Button
-			android:id="@+id/dialogButton1"
-			style="?android:attr/buttonBarButtonStyle"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/settings"/>
-
-		<View
-			android:layout_width="0dp"
-			android:layout_height="0dp"
-			android:layout_weight="1"/>
-
-		<Button
-			android:id="@+id/dialogButton2"
-			style="?android:attr/buttonBarButtonStyle"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/ok"/>
-
-	</LinearLayout>
-
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/dark_background">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialogTextView1"
+        android:layout_marginBottom="5dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/dialogButton1"
+            style="?android:attr/buttonBarButtonStyle"
+            android:background="#20000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/dialogButton2"
+            style="?android:attr/buttonBarButtonStyle"
+            android:background="#20000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ok"/>
+    </LinearLayout>
 </LinearLayout>
-

@@ -11,6 +11,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -21,6 +24,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import ru.maximoff.reminder.R;
+import ru.maximoff.reminder.Utils;
 
 public class UnlockService extends Service {
     private static final int NOTIFICATION_ID = 1001;
@@ -38,14 +43,18 @@ public class UnlockService extends Service {
 				final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ctx);
                 if (Intent.ACTION_USER_PRESENT.equals(intent.getAction()) && canLaunch(preferences)) {
 					String text = preferences.getString("remind_text", "");
+					int fontColor = preferences.getInt("font_color", Utils.getColor(ctx, R.color.text_dark));
+					int bgColor = preferences.getInt("bg_color", Utils.getColor(ctx, R.color.bg_dark));
+					boolean bold = preferences.getBoolean("font_bold", false);
+					boolean cursive = preferences.getBoolean("font_cursive", false);
 					if (preferences.getBoolean("dialog_remind", true)) {
 						if (Utils.canDrawOverlay(ctx)) {
-							floatingWindow(text);
+							floatingWindow(text, fontColor, bgColor, bold, cursive);
 						} else {
-							Utils.st(ctx, R.string.permission_need);
+							Utils.st(ctx, R.string.permission_need, fontColor, bgColor, bold, cursive);
 						}
 					} else {
-						Utils.st(ctx, text);
+						Utils.st(ctx, text, fontColor, bgColor, bold, cursive);
 					}
 					preferences.edit().putLong("remind_time", System.currentTimeMillis()).commit();
                 }
@@ -73,12 +82,24 @@ public class UnlockService extends Service {
         return null;
     }
 
-	private void floatingWindow(String text) {
+	private void floatingWindow(String text, int fontColor, int bgColor, boolean bold, boolean cursive) {
 		final WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 		final ContextThemeWrapper ctx = new ContextThemeWrapper(this, R.style.OverlayDialogTheme);
 		final View view = LayoutInflater.from(ctx).inflate(R.layout.dialog, null);
+		final LayerDrawable bgDrawable = (LayerDrawable) getDrawable(R.drawable.dark_background).mutate();
+		GradientDrawable bg = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.content);
+		bg.setColor(bgColor);
+		view.setBackground(bgDrawable);
 		TextView textView = view.findViewById(R.id.dialogTextView1);
 		textView.setText(text);
+		textView.setTextColor(fontColor);
+		int style;
+		if (bold) {
+			style = cursive ? Typeface.BOLD_ITALIC : Typeface.BOLD;
+		} else {
+			style = cursive ? Typeface.ITALIC : Typeface.NORMAL;
+		}
+		textView.setTypeface(null, style);
 		WindowManager.LayoutParams params = new WindowManager.LayoutParams((int) (getResources().getDisplayMetrics().widthPixels * 0.85),
 			WindowManager.LayoutParams.WRAP_CONTENT,
 			Build.VERSION.SDK_INT >= 26 ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY : WindowManager.LayoutParams.TYPE_PHONE,

@@ -2,10 +2,14 @@ package ru.maximoff.reminder;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -15,6 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import ru.maximoff.reminder.R;
+import ru.maximoff.reminder.Utils;
 
 public class Utils {
 	public static void setHyperlinkText(TextView tv, String text) {
@@ -44,7 +49,12 @@ public class Utils {
 				intent.setData(Uri.parse("package:" + packageName));
 				context.startActivity(intent);
 			} catch (Exception e) {
-				Utils.st(context, R.string.error);
+				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+				int fontColor = preferences.getInt("font_color", Utils.getColor(context, R.color.text_dark));
+				int bgColor = preferences.getInt("bg_color", Utils.getColor(context, R.color.bg_dark));
+				boolean bold = preferences.getBoolean("font_bold", false);
+				boolean cursive = preferences.getBoolean("font_cursive", false);
+				Utils.st(context, R.string.error, fontColor, bgColor, bold, cursive);
 			}
 		}
 	}
@@ -56,14 +66,23 @@ public class Utils {
 		return ctx.getResources().getColor(color);
 	}
 
-	public static void st(Context ctx, String text, int duration) {
+	public static void st(Context ctx, String text, int duration, int fontColor, int bgColor, boolean bold, boolean cursive) {
 		try {
-			final Drawable background = ctx.getResources().getDrawable(R.drawable.dark_background);
+			final LayerDrawable bgDrawable = (LayerDrawable) ctx.getResources().getDrawable(R.drawable.dark_background).mutate();
+			GradientDrawable bg = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.content);
+			bg.setColor(bgColor);
 			final View layout = LayoutInflater.from(ctx).inflate(R.layout.toast, null);
-			layout.setBackground(background);
+			layout.setBackground(bgDrawable);
 			TextView toastMessage = layout.findViewById(R.id.toastTextView1);
-			toastMessage.setTextColor(Utils.getColor(ctx, R.color.text_dark));
+			toastMessage.setTextColor(fontColor);
 			toastMessage.setText(text);
+			int style;
+			if (bold) {
+				style = cursive ? Typeface.BOLD_ITALIC : Typeface.BOLD;
+			} else {
+				style = cursive ? Typeface.ITALIC : Typeface.NORMAL;
+			}
+			toastMessage.setTypeface(null, style);
 			Toast toast = new Toast(ctx);
 			toast.setDuration(duration);
 			toast.setView(layout);
@@ -73,17 +92,17 @@ public class Utils {
 		}
 	}
 
-	public static void st(Context ctx, String text) {
+	public static void st(Context ctx, String text, int fontColor, int bgColor, boolean bold, boolean cursive) {
 		try {
-			Utils.st(ctx, text, Toast.LENGTH_LONG);
+			Utils.st(ctx, text, Toast.LENGTH_LONG, fontColor, bgColor, bold, cursive);
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}
 	}
 
-	public static void st(Context ctx, int res) {
+	public static void st(Context ctx, int res, int fontColor, int bgColor, boolean bold, boolean cursive) {
 		try {
-			Utils.st(ctx, ctx.getString(res), Toast.LENGTH_LONG);
+			Utils.st(ctx, ctx.getString(res), Toast.LENGTH_LONG, fontColor, bgColor, bold, cursive);
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}
