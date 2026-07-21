@@ -89,7 +89,7 @@ public class UnlockService extends Service {
 		final WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 		final ContextThemeWrapper ctx = new ContextThemeWrapper(this, R.style.OverlayDialogTheme);
 		final View view = LayoutInflater.from(ctx).inflate(R.layout.dialog, null);
-		final LayerDrawable bgDrawable = (LayerDrawable) getDrawable(R.drawable.dark_background).mutate();
+		final LayerDrawable bgDrawable = (LayerDrawable) getResources().getDrawable(R.drawable.dark_background).mutate();
 		GradientDrawable bg = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.content);
 		bg.setColor(bgColor);
 		view.setBackground(bgDrawable);

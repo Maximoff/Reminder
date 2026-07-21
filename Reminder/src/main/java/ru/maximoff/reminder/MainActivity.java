@@ -52,8 +52,8 @@ public class MainActivity extends Activity {
 		final CheckBox cursiveFont = findViewById(R.id.mainCheckBox2);
 		final LinearLayout fontColorItem = findViewById(R.id.mainLinearLayout1);
 		final LinearLayout bgColorItem = findViewById(R.id.mainLinearLayout2);
-		final GradientDrawable fontColorPreview = (GradientDrawable) getDrawable(R.drawable.color_preview).mutate();
-		final GradientDrawable bgColorPreview = (GradientDrawable) getDrawable(R.drawable.color_preview).mutate();
+		final GradientDrawable fontColorPreview = (GradientDrawable) getResources().getDrawable(R.drawable.color_preview).mutate();
+		final GradientDrawable bgColorPreview = (GradientDrawable) getResources().getDrawable(R.drawable.color_preview).mutate();
 		boldFont.setChecked(preferences.getBoolean("font_bold", false));
 		cursiveFont.setChecked(preferences.getBoolean("font_cursive", false));
 		final int defaultFontColor = Utils.getColor(this, R.color.text_dark);
