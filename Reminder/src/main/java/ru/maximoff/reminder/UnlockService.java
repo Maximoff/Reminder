@@ -147,7 +147,7 @@ public class UnlockService extends Service {
 		Drawable buttonBg = Utils.createButtonBackground(this, bgColor);
 		settings.setBackground(buttonBg);
 		close.setBackground(buttonBg);
-		int textColor = Utils.isDarkColor(bgColor) ? Color.BLACK : Color.WHITE;
+		int textColor = Utils.isDarkColor(bgColor) ? Utils.getColor(this, R.color.button_dark) : Utils.getColor(this, R.color.button_light);
 		settings.setTextColor(textColor);
 		close.setTextColor(textColor);
 		WindowManager.LayoutParams params = new WindowManager.LayoutParams((int) (getResources().getDisplayMetrics().widthPixels * 0.85),
