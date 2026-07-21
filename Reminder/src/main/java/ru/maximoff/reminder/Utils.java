@@ -3,7 +3,9 @@ package ru.maximoff.reminder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
@@ -106,5 +108,31 @@ public class Utils {
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}
+	}
+
+	public static boolean isDarkColor(int color) {
+		int r = Color.red(color);
+		int g = Color.green(color);
+		int b = Color.blue(color);
+		int brightness = (r * 299 + g * 587 + b * 114) / 1000;
+		return brightness < 128;
+	}
+
+	public static int dp(Context context, int value) {
+		return (int) (value * context.getResources().getDisplayMetrics().density + 0.5f);
+	}
+
+	public static Drawable createButtonBackground(Context context, int bgColor) {
+		boolean dark = isDarkColor(bgColor);
+		GradientDrawable drawable = new GradientDrawable();
+		drawable.setCornerRadius(dp(context, 5));
+		if (dark) {
+			drawable.setColor(Color.argb(45, 255, 255, 255));
+			drawable.setStroke(dp(context, 1), Color.argb(80, 255, 255, 255));
+		} else {
+			drawable.setColor(Color.argb(35, 0, 0, 0));
+			drawable.setStroke(dp(context, 1), Color.argb(70, 0, 0, 0));
+		}
+		return drawable;
 	}
 }

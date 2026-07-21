@@ -10,8 +10,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
@@ -100,14 +102,6 @@ public class UnlockService extends Service {
 			style = cursive ? Typeface.ITALIC : Typeface.NORMAL;
 		}
 		textView.setTypeface(null, style);
-		WindowManager.LayoutParams params = new WindowManager.LayoutParams((int) (getResources().getDisplayMetrics().widthPixels * 0.85),
-			WindowManager.LayoutParams.WRAP_CONTENT,
-			Build.VERSION.SDK_INT >= 26 ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY : WindowManager.LayoutParams.TYPE_PHONE,
-			WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-			PixelFormat.TRANSLUCENT
-        );
-		params.gravity = Gravity.CENTER;
-		wm.addView(view, params);
 		Button settings = view.findViewById(R.id.dialogButton1);
 		settings.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -133,6 +127,20 @@ public class UnlockService extends Service {
 					}
 				}
 			});
+		Drawable buttonBg = Utils.createButtonBackground(this, bgColor);
+		settings.setBackground(buttonBg);
+		close.setBackground(buttonBg);
+		int textColor = Utils.isDarkColor(bgColor) ? Color.BLACK : Color.WHITE;
+		settings.setTextColor(textColor);
+		close.setTextColor(textColor);
+		WindowManager.LayoutParams params = new WindowManager.LayoutParams((int) (getResources().getDisplayMetrics().widthPixels * 0.85),
+			WindowManager.LayoutParams.WRAP_CONTENT,
+			Build.VERSION.SDK_INT >= 26 ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY : WindowManager.LayoutParams.TYPE_PHONE,
+			WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+			PixelFormat.TRANSLUCENT
+        );
+		params.gravity = Gravity.CENTER;
+		wm.addView(view, params);
 	}
 
     private void startForegroundIfNeeded() {
