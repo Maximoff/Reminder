@@ -1,4 +1,4 @@
 # Reminder
 Напоминалка при разблокировке экрана.
 
-[Готовый APK](./Reminder_v1.3.apk)
+[Готовый APK](./Reminder_v1.4.apk)

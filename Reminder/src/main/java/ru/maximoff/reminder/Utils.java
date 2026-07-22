@@ -78,13 +78,6 @@ public class Utils {
 			final View layout = LayoutInflater.from(ctx).inflate(R.layout.toast, null);
 			layout.setBackground(bgDrawable);
 			TextView toastMessage = layout.findViewById(R.id.toastTextView1);
-			int style;
-			if (bold) {
-				style = cursive ? Typeface.BOLD_ITALIC : Typeface.BOLD;
-			} else {
-				style = cursive ? Typeface.ITALIC : Typeface.NORMAL;
-			}
-			toastMessage.setTypeface(null, style);
 			int appearance;
 			switch (fontSize) {
 				case 0:
@@ -101,6 +94,13 @@ public class Utils {
 					break;
 			}
 			setTextAppearance(ctx, toastMessage, appearance);
+			int style;
+			if (bold) {
+				style = cursive ? Typeface.BOLD_ITALIC : Typeface.BOLD;
+			} else {
+				style = cursive ? Typeface.ITALIC : Typeface.NORMAL;
+			}
+			toastMessage.setTypeface(null, style);
 			toastMessage.setTextColor(fontColor);
 			toastMessage.setText(text);
 			Toast toast = new Toast(ctx);

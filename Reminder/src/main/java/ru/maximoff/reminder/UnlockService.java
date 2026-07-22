@@ -94,13 +94,6 @@ public class UnlockService extends Service {
 		bg.setColor(bgColor);
 		view.setBackground(bgDrawable);
 		TextView textView = view.findViewById(R.id.dialogTextView1);
-		int style;
-		if (bold) {
-			style = cursive ? Typeface.BOLD_ITALIC : Typeface.BOLD;
-		} else {
-			style = cursive ? Typeface.ITALIC : Typeface.NORMAL;
-		}
-		textView.setTypeface(null, style);
 		int appearance;
 		switch (fontSize) {
 			case 0:
@@ -117,6 +110,13 @@ public class UnlockService extends Service {
 				break;
 		}
 		Utils.setTextAppearance(ctx, textView, appearance);
+		int style;
+		if (bold) {
+			style = cursive ? Typeface.BOLD_ITALIC : Typeface.BOLD;
+		} else {
+			style = cursive ? Typeface.ITALIC : Typeface.NORMAL;
+		}
+		textView.setTypeface(null, style);
 		textView.setTextColor(fontColor);
 		textView.setText(text);
 		Button settings = view.findViewById(R.id.dialogButton1);
@@ -127,21 +127,15 @@ public class UnlockService extends Service {
 						Intent i = new Intent(UnlockService.this, MainActivity.class);
 						i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 						startActivity(i);
-						wm.removeView(view);
-					} catch (Exception e) {
-						// e.printStackTrace();
-					}
+						FloatingDialog.dismiss();
+					} catch (Exception e) {}
 				}
 			});
 		Button close = view.findViewById(R.id.dialogButton2);
 		close.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					try {
-						wm.removeView(view);
-					} catch (Exception e) {
-						// e.printStackTrace();
-					}
+					FloatingDialog.dismiss();
 				}
 			});
 		Drawable buttonBg = Utils.createButtonBackground(this, bgColor);
@@ -157,7 +151,7 @@ public class UnlockService extends Service {
 			PixelFormat.TRANSLUCENT
         );
 		params.gravity = Gravity.CENTER;
-		wm.addView(view, params);
+		FloatingDialog.show(wm, view, params);
 	}
 
     private void startForegroundIfNeeded() {
