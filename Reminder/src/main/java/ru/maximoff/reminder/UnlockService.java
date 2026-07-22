@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -46,6 +45,7 @@ public class UnlockService extends Service {
                 if (Intent.ACTION_USER_PRESENT.equals(intent.getAction()) && canLaunch(preferences)) {
 					String text = preferences.getString("remind_text", "");
 					int fontSize = preferences.getInt("font_size", 1);
+					int duration = preferences.getInt("toast_length", 1);
 					int fontColor = preferences.getInt("font_color", Utils.getColor(ctx, R.color.text_dark));
 					int bgColor = preferences.getInt("bg_color", Utils.getColor(ctx, R.color.bg_dark));
 					boolean bold = preferences.getBoolean("font_bold", false);
@@ -54,10 +54,10 @@ public class UnlockService extends Service {
 						if (Utils.canDrawOverlay(ctx)) {
 							floatingWindow(text, fontColor, bgColor, bold, cursive, fontSize);
 						} else {
-							Utils.st(ctx, R.string.permission_need, fontColor, bgColor, bold, cursive, fontSize);
+							Utils.st(ctx, R.string.permission_need, duration, fontColor, bgColor, bold, cursive, fontSize);
 						}
 					} else {
-						Utils.st(ctx, text, fontColor, bgColor, bold, cursive, fontSize);
+						Utils.st(ctx, text, duration, fontColor, bgColor, bold, cursive, fontSize);
 					}
 					preferences.edit().putLong("remind_time", System.currentTimeMillis()).commit();
                 }

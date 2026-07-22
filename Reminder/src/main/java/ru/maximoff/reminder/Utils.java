@@ -53,11 +53,12 @@ public class Utils {
 			} catch (Exception e) {
 				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 				int fontSize = preferences.getInt("font_size", 1);
+				int duration = preferences.getInt("toast_length", 1);
 				int fontColor = preferences.getInt("font_color", Utils.getColor(context, R.color.text_dark));
 				int bgColor = preferences.getInt("bg_color", Utils.getColor(context, R.color.bg_dark));
 				boolean bold = preferences.getBoolean("font_bold", false);
 				boolean cursive = preferences.getBoolean("font_cursive", false);
-				Utils.st(context, R.string.error, fontColor, bgColor, bold, cursive, fontSize);
+				Utils.st(context, R.string.error, duration, fontColor, bgColor, bold, cursive, fontSize);
 			}
 		}
 	}
@@ -69,7 +70,7 @@ public class Utils {
 		return ctx.getResources().getColor(color);
 	}
 
-	public static void st(Context ctx, String text, int duration, int fontColor, int bgColor, boolean bold, boolean cursive, int fontSize) {
+	public static void stt(Context ctx, String text, int duration, int fontColor, int bgColor, boolean bold, boolean cursive, int fontSize) {
 		try {
 			final LayerDrawable bgDrawable = (LayerDrawable) ctx.getResources().getDrawable(R.drawable.dark_background).mutate();
 			GradientDrawable bg = (GradientDrawable) bgDrawable.findDrawableByLayerId(R.id.content);
@@ -111,17 +112,17 @@ public class Utils {
 		}
 	}
 
-	public static void st(Context ctx, String text, int fontColor, int bgColor, boolean bold, boolean cursive, int fontSize) {
+	public static void st(Context ctx, String text, int duration, int fontColor, int bgColor, boolean bold, boolean cursive, int fontSize) {
 		try {
-			Utils.st(ctx, text, Toast.LENGTH_LONG, fontColor, bgColor, bold, cursive, fontSize);
+			Utils.stt(ctx, text, (duration == 0 ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG), fontColor, bgColor, bold, cursive, fontSize);
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}
 	}
 
-	public static void st(Context ctx, int res, int fontColor, int bgColor, boolean bold, boolean cursive, int fontSize) {
+	public static void st(Context ctx, int res, int duration, int fontColor, int bgColor, boolean bold, boolean cursive, int fontSize) {
 		try {
-			Utils.st(ctx, ctx.getString(res), Toast.LENGTH_LONG, fontColor, bgColor, bold, cursive, fontSize);
+			Utils.stt(ctx, ctx.getString(res), (duration == 0 ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG), fontColor, bgColor, bold, cursive, fontSize);
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}

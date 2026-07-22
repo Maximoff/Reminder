@@ -20,4 +20,6 @@
 	<string name="bold">Жирный</string>
 	<string name="cursive">Курсив</string>
 	<string name="font_size">Размер текста</string>
+	<string name="test">Тест</string>
+	<string name="toast_length">Продолжительность тоста</string>
 </resources>

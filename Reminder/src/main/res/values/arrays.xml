@@ -5,4 +5,8 @@
 		<item>Средний</item>
 		<item>Большой</item>
 	</string-array>
+    <string-array name="toast_length">
+		<item>Короткий</item>
+		<item>Длинный</item>
+	</string-array>
 </resources>
