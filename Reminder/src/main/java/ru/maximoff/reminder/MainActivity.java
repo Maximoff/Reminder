@@ -219,6 +219,17 @@ public class MainActivity extends Activity {
 				}
 			});
 		Utils.setHyperlinkText(copyright, "© Maximoff, 2026");
+		final TextView github = findViewById(R.id.mainTextView2);
+		github.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View p1) {
+					Intent open = new Intent(Intent.ACTION_VIEW);
+					open.setData(Uri.parse("https://github.com/Maximoff/Reminder"));
+					startActivity(open);
+				}
+			});
+		Utils.setHyperlinkText(github, "GitHub");
+		
 		Utils.batteryOptimization(this);
 		if (!Utils.canDrawOverlay(this)) {
 			AlertDialog dialog = new AlertDialog.Builder(this)
